@@ -1,5 +1,9 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
@@ -16,7 +20,13 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
     final int FPS = 60;
-    //
+
+    // pre obrazky
+    BufferedImage imgUp;
+    BufferedImage imgDown;
+    BufferedImage imgRight;
+    BufferedImage imgLeft;
+    BufferedImage imgActual;
 
     // default pozicia a rychlosť "hrača"
     int playerX = 100;
@@ -30,8 +40,21 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(controller);
         this.setFocusable(true);
+        System.out.println(screenWidth + " " + screenHeight);
     }
+
     //
+    public void loadImageFiles() {
+        try {
+            imgUp = ImageIO.read(new File(".\\img\\up.png"));
+            imgDown = ImageIO.read(new File(".\\img\\down.png"));
+            imgRight = ImageIO.read(new File(".\\img\\right.png"));
+            imgLeft = ImageIO.read(new File(".\\img\\left.png"));
+            imgActual = imgUp;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void startGameThread() {
         this.thread = new Thread(this) ;
@@ -46,6 +69,8 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+
+        loadImageFiles();
 
         while(thread != null) {
             currentTime = System.nanoTime();
@@ -67,12 +92,16 @@ public class GamePanel extends JPanel implements Runnable {
         // väčšina logiky
         if (controller.upPressed) {
             playerY -= playerSpeed;
+            imgActual = imgUp;
         }else if (controller.downPressed) {
             playerY += playerSpeed;
+            imgActual = imgDown;
         }else if (controller.leftPressed) {
             playerX -= playerSpeed;
+            imgActual = imgLeft;
         }else if (controller.rightPressed) {
             playerX += playerSpeed;
+            imgActual = imgRight;
         }
 
         playerX = Math.max(0, Math.min(playerX, screenWidth - tileSize));
@@ -89,6 +118,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(playerX, playerY, tileSize, tileSize);
+        graphics2D.drawImage(imgActual, null, playerX, playerY);
         graphics2D.dispose();
 
         //
