@@ -1,13 +1,16 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
     Controller controller = new Controller();
+    Player player = new Player();
+    Car car1 = new Car(20, 20);
+
+    ArrayList<Player> players = new ArrayList<Player>();
+    ArrayList<Car> cars = new ArrayList<Car>();
+
 
 
     // Nastavenia GUI (48x48, 768x576 px)
@@ -20,18 +23,8 @@ public class GamePanel extends JPanel implements Runnable {
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
     final int FPS = 60;
+    //
 
-    // pre obrazky
-    BufferedImage imgUp;
-    BufferedImage imgDown;
-    BufferedImage imgRight;
-    BufferedImage imgLeft;
-    BufferedImage imgActual;
-
-    // default pozicia a rychlosť "hrača"
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     // nastavenia "Platna"
     public GamePanel() {
@@ -40,21 +33,11 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(controller);
         this.setFocusable(true);
-        System.out.println(screenWidth + " " + screenHeight);
-    }
 
-    //
-    public void loadImageFiles() {
-        try {
-            imgUp = ImageIO.read(new File(".\\img\\up.png"));
-            imgDown = ImageIO.read(new File(".\\img\\down.png"));
-            imgRight = ImageIO.read(new File(".\\img\\right.png"));
-            imgLeft = ImageIO.read(new File(".\\img\\left.png"));
-            imgActual = imgUp;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        players.add(player);
+        cars.add(car1);
     }
+    //
 
     public void startGameThread() {
         this.thread = new Thread(this) ;
@@ -69,8 +52,6 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
-
-        loadImageFiles();
 
         while(thread != null) {
             currentTime = System.nanoTime();
@@ -91,21 +72,34 @@ public class GamePanel extends JPanel implements Runnable {
 
         // väčšina logiky
         if (controller.upPressed) {
-            playerY -= playerSpeed;
-            imgActual = imgUp;
+            player.update(0, -player.playerSpeed);
         }else if (controller.downPressed) {
-            playerY += playerSpeed;
-            imgActual = imgDown;
+            player.update(0, player.playerSpeed);
         }else if (controller.leftPressed) {
-            playerX -= playerSpeed;
-            imgActual = imgLeft;
+            player.update(-player.playerSpeed, 0);
         }else if (controller.rightPressed) {
-            playerX += playerSpeed;
-            imgActual = imgRight;
+            player.update(player.playerSpeed, 0);
         }
 
-        playerX = Math.max(0, Math.min(playerX, screenWidth - tileSize));
-        playerY = Math.max(0, Math.min(playerY, screenHeight - tileSize));
+        // otačanie auta
+        if (car1.carRectangle.x < 0 || car1.carRectangle.x + car1.carRectangle.width > screenWidth) {
+            car1.carSpeed *= -1;
+        }
+
+        // updatovanie po X osi
+        car1.update(car1.carSpeed, 0);
+
+        // ak trafi auto playera
+        if(car1.hasCollided(player.playerRectangle)) {
+            players.remove(0);
+            JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+        }
+
+        // aby hrač nešiel za mapu
+
+        player.playerRectangle.x = Math.max(0, Math.min(player.playerRectangle.x, screenWidth - tileSize));
+        player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
         //
 
@@ -116,9 +110,14 @@ public class GamePanel extends JPanel implements Runnable {
         // tu kresliš na platno
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D) graphics;
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(playerX, playerY, tileSize, tileSize);
-        graphics2D.drawImage(imgActual, null, playerX, playerY);
+
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).paintComponent(graphics2D);
+        }
+
+        for (int i = 0; i < cars.size(); i++) {
+            cars.get(i).paintComponent(graphics2D);
+        }
         graphics2D.dispose();
 
         //
