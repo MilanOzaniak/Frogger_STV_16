@@ -7,9 +7,14 @@ public class GamePanel extends JPanel implements Runnable {
     Controller controller = new Controller();
     Player player = new Player();
     Car car1 = new Car(20, 20);
+    Tree tree1 = new Tree(50, 100);
+    Tree tree2 = new Tree(100, 100);
+    Water water1 = new Water(350, 200);
 
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<Car> cars = new ArrayList<Car>();
+    ArrayList<Tree> trees = new ArrayList<Tree>();
+    ArrayList<Water> water = new ArrayList<Water>();
 
 
 
@@ -33,6 +38,10 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(controller);
         this.setFocusable(true);
+
+        trees.add(tree1);
+        trees.add(tree2);
+        water.add(water1);
 
         players.add(player);
         cars.add(car1);
@@ -101,11 +110,33 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerRectangle.x = Math.max(0, Math.min(player.playerRectangle.x, screenWidth - tileSize));
         player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
+        for(int i = 0; i < water.size(); i++) {
+            if(water.get(i).hasCollided(player.playerRectangle)) {
+                if(players != null) {
+                    players.remove(0);
+                    JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+            }
+
+        }
+
         //
-        int panelOffsetX = screenWidth / 2 - player.playerRectangle.x - tileSize / 2;
-        int panelOffsetY = screenHeight / 2 - player.playerRectangle.y - tileSize / 2;
-        for (Player p : players) {
-            p.move(panelOffsetX, panelOffsetY);
+
+        for (int i = 0; i < trees.size(); i++) {
+            if (trees.get(i).hasCollided(player.playerRectangle)) {
+                // Adjust player position based on the direction of movement
+                if (controller.upPressed) {
+                    player.playerRectangle.y = trees.get(i).treeRectangle.y + trees.get(i).treeRectangle.height;
+                } else if (controller.downPressed) {
+                    player.playerRectangle.y = trees.get(i).treeRectangle.y - player.playerRectangle.height;
+                } else if (controller.leftPressed) {
+                    player.playerRectangle.x = trees.get(i).treeRectangle.x + trees.get(i).treeRectangle.width;
+                } else if (controller.rightPressed) {
+                    player.playerRectangle.x = trees.get(i).treeRectangle.x - player.playerRectangle.width;
+                }
+            }
+
         }
 
     }
@@ -123,8 +154,16 @@ public class GamePanel extends JPanel implements Runnable {
         for (int i = 0; i < cars.size(); i++) {
             cars.get(i).paintComponent(graphics2D);
         }
+
+        for (int i = 0; i < trees.size(); i++) {
+            trees.get(i).paintComponent(graphics2D);
+        }
+
+        for (int i = 0; i < water.size(); i++) {
+            water.get(i).paintComponent(graphics2D);
+        }
+
         graphics2D.dispose();
 
-        //
     }
 }
