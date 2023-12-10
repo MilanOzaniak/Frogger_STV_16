@@ -73,11 +73,11 @@ public class GamePanel extends JPanel implements Runnable {
         // väčšina logiky
         if (controller.upPressed) {
             player.update(0, -player.playerSpeed);
-        }else if (controller.downPressed) {
+        } else if (controller.downPressed) {
             player.update(0, player.playerSpeed);
-        }else if (controller.leftPressed) {
+        } else if (controller.leftPressed) {
             player.update(-player.playerSpeed, 0);
-        }else if (controller.rightPressed) {
+        } else if (controller.rightPressed) {
             player.update(player.playerSpeed, 0);
         }
 
@@ -90,7 +90,7 @@ public class GamePanel extends JPanel implements Runnable {
         car1.update(car1.carSpeed, 0);
 
         // ak trafi auto playera
-        if(car1.hasCollided(player.playerRectangle)) {
+        if (car1.hasCollided(player.playerRectangle)) {
             players.remove(0);
             JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
@@ -102,6 +102,11 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
         //
+        int panelOffsetX = screenWidth / 2 - player.playerRectangle.x - tileSize / 2;
+        int panelOffsetY = screenHeight / 2 - player.playerRectangle.y - tileSize / 2;
+        for (Player p : players) {
+            p.move(panelOffsetX, panelOffsetY);
+        }
 
     }
 
