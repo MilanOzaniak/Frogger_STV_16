@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class Player {
-    int playerX = 100;
-    int playerY = 100;
+    int playerX = 264;
+    int playerY = 864;
     int playerSpeed = 4;
     Image playerImageRight;
     Image playerImageLeft;
@@ -22,7 +22,7 @@ public class Player {
         playerImageUp = new ImageIcon("./img/player_up.png").getImage();
         playerImageDown = new ImageIcon("./img/player_down.png").getImage();
 
-        currentImage = playerImageRight;
+        currentImage = playerImageUp;
     }
 
     public void update(int x, int y) {
