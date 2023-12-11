@@ -1,9 +1,20 @@
 import java.awt.*;
 
 public class Player {
+<<<<<<< Updated upstream
     int playerX = 100;
     int playerY = 100;
     int playerSpeed = 4;
+=======
+    int playerX = 200;
+    int playerY = 860;
+    int playerSpeed = 5;
+    Image playerImageRight;
+    Image playerImageLeft;
+    Image playerImageUp;
+    Image playerImageDown;
+    Image currentImage;
+>>>>>>> Stashed changes
     Rectangle playerRectangle;
 
     public Player() {
