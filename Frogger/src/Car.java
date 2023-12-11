@@ -11,8 +11,7 @@ public class Car {
     Image currentImage;
     Rectangle carRectangle;
 
-    public Car(int x, int y, int speed) {
-        carSpeed = speed;
+    public Car(int x, int y) {
         carRectangle = new Rectangle(x, y, 16 * 3, 16 * 3);
 
         // nacitanie obrazkov

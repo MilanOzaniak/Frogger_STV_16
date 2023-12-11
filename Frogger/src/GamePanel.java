@@ -6,48 +6,25 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
     Controller controller = new Controller();
     Player player = new Player();
-<<<<<<< Updated upstream
     Car car1 = new Car(20, 20);
-=======
-
-    Car car1 = new Car(0, 650, 5);
-    Car car2 = new Car(420, 600, 5);
-    Car car3 = new Car(0, 550, 5);
-
-    Tree tree1 = new Tree(0, 700);
-    Tree tree2 = new Tree(50, 700);
-    Tree tree3 = new Tree(100, 700);
-    Tree tree4 = new Tree(200, 700);
-    Tree tree5 = new Tree(250, 700);
-    Tree tree6 = new Tree(300, 700);
-    Tree tree7 = new Tree(400, 700);
-
+    Tree tree1 = new Tree(50, 100);
+    Tree tree2 = new Tree(100, 100);
     Water water1 = new Water(350, 200);
->>>>>>> Stashed changes
-
-    LilyPad lilyPad1 = new LilyPad(400, 200);
-
-    Log log1 = new Log(600, 200);
 
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<Car> cars = new ArrayList<Car>();
-<<<<<<< Updated upstream
-=======
     ArrayList<Tree> trees = new ArrayList<Tree>();
     ArrayList<Water> water = new ArrayList<Water>();
-    ArrayList<Log> logs = new ArrayList<Log>();
-    ArrayList<LilyPad> lilyPads = new ArrayList<LilyPad>();
->>>>>>> Stashed changes
 
 
 
-    // Nastavenia GUI (48x48, 480x864 px)
+    // Nastavenia GUI (48x48, 768x576 px)
     final int originalTileSize = 16;
     final int scale = 3;
 
     final int tileSize = originalTileSize * scale;
-    final int maxScreenCol = 10;
-    final int maxScreenRow = 18;
+    final int maxScreenCol = 16;
+    final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;
     final int screenHeight = tileSize * maxScreenRow;
     final int FPS = 60;
@@ -62,23 +39,12 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(controller);
         this.setFocusable(true);
 
-<<<<<<< Updated upstream
-=======
         trees.add(tree1);
         trees.add(tree2);
-        trees.add(tree3);
-        trees.add(tree4);
-        trees.add(tree5);
-        trees.add(tree6);
-        trees.add(tree7);
         water.add(water1);
 
->>>>>>> Stashed changes
         players.add(player);
-
         cars.add(car1);
-        cars.add(car2);
-        cars.add(car3);
     }
     //
 
@@ -116,34 +82,26 @@ public class GamePanel extends JPanel implements Runnable {
         // väčšina logiky
         if (controller.upPressed) {
             player.update(0, -player.playerSpeed);
-        }else if (controller.downPressed) {
+        } else if (controller.downPressed) {
             player.update(0, player.playerSpeed);
-        }else if (controller.leftPressed) {
+        } else if (controller.leftPressed) {
             player.update(-player.playerSpeed, 0);
-        }else if (controller.rightPressed) {
+        } else if (controller.rightPressed) {
             player.update(player.playerSpeed, 0);
         }
 
-        // otačanie auta, updatovanie a zistovanie hitu
+        // otačanie auta
+        if (car1.carRectangle.x < 0 || car1.carRectangle.x + car1.carRectangle.width > screenWidth) {
+            car1.carSpeed *= -1;
+        }
 
-        for(int i  = 0; i < cars.size(); i++) {
-            if (cars.get(i).carRectangle.x < 0 || cars.get(i).carRectangle.x + cars.get(i).carRectangle.width > screenWidth) {
-                cars.get(i).carSpeed *= -1;
-            }
-            cars.get(i).update(cars.get(i).carSpeed, 0);
+        // updatovanie po X osi
+        car1.update(car1.carSpeed, 0);
 
-<<<<<<< Updated upstream
         // ak trafi auto playera
-        if(car1.hasCollided(player.playerRectangle)) {
+        if (car1.hasCollided(player.playerRectangle)) {
             players.remove(0);
             JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-=======
-            if (cars.get(i).hasCollided(player.playerRectangle)) {
-                players.remove(0);
-                JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
-            }
->>>>>>> Stashed changes
 
         }
 
@@ -152,7 +110,34 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerRectangle.x = Math.max(0, Math.min(player.playerRectangle.x, screenWidth - tileSize));
         player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
+        for(int i = 0; i < water.size(); i++) {
+            if(water.get(i).hasCollided(player.playerRectangle)) {
+                if(players != null) {
+                    players.remove(0);
+                    JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+            }
+
+        }
+
         //
+
+        for (int i = 0; i < trees.size(); i++) {
+            if (trees.get(i).hasCollided(player.playerRectangle)) {
+                // Adjust player position based on the direction of movement
+                if (controller.upPressed) {
+                    player.playerRectangle.y = trees.get(i).treeRectangle.y + trees.get(i).treeRectangle.height;
+                } else if (controller.downPressed) {
+                    player.playerRectangle.y = trees.get(i).treeRectangle.y - player.playerRectangle.height;
+                } else if (controller.leftPressed) {
+                    player.playerRectangle.x = trees.get(i).treeRectangle.x + trees.get(i).treeRectangle.width;
+                } else if (controller.rightPressed) {
+                    player.playerRectangle.x = trees.get(i).treeRectangle.x - player.playerRectangle.width;
+                }
+            }
+
+        }
 
     }
 
@@ -169,8 +154,6 @@ public class GamePanel extends JPanel implements Runnable {
         for (int i = 0; i < cars.size(); i++) {
             cars.get(i).paintComponent(graphics2D);
         }
-<<<<<<< Updated upstream
-=======
 
         for (int i = 0; i < trees.size(); i++) {
             trees.get(i).paintComponent(graphics2D);
@@ -180,17 +163,7 @@ public class GamePanel extends JPanel implements Runnable {
             water.get(i).paintComponent(graphics2D);
         }
 
-        for (int i = 0; i < logs.size(); i++) {
-            logs.get(i).paintComponent(graphics2D);
-        }
-
-        for (int i = 0; i < lilyPads.size(); i++) {
-            lilyPads.get(i).paintComponent(graphics2D);
-        }
-
->>>>>>> Stashed changes
         graphics2D.dispose();
 
-        //
     }
 }
