@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 
 
-    // Nastavenia GUI (48x48, 864x576 px)
+    // Nastavenia GUI (48x48, 816x576 px)
     final int originalTileSize = 16;
     final int scale = 3;
 
@@ -183,7 +183,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         for (int i = 0; i < trees.size(); i++) {
             if (trees.get(i).hasCollided(player.playerRectangle)) {
-                // Adjust player position based on the direction of movement
                 if (controller.upPressed) {
                     player.playerRectangle.y = trees.get(i).treeRectangle.y + trees.get(i).treeRectangle.height;
                 } else if (controller.downPressed) {

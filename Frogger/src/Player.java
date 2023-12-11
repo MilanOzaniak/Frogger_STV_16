@@ -3,15 +3,17 @@ import java.awt.*;
 import java.awt.image.ImageObserver;
 
 public class Player {
-    int playerX = 264;
+    int playerX = 240;
     int playerY = 864;
-    int playerSpeed = 4;
+    int playerSpeed = 48;
+    int movementSpeed = 250;
     Image playerImageRight;
     Image playerImageLeft;
     Image playerImageUp;
     Image playerImageDown;
     Image currentImage;
     Rectangle playerRectangle;
+    long lastRunTime = System.currentTimeMillis();
 
     public Player() {
         playerRectangle = new Rectangle(playerX, playerY, 16 * 3, 16 * 3);
@@ -26,29 +28,32 @@ public class Player {
     }
 
     public void update(int x, int y) {
-        playerRectangle.x += x;
-        playerRectangle.y += y;
+        long currentTime = System.currentTimeMillis();
+        if(currentTime - lastRunTime >= movementSpeed) {
+            lastRunTime = currentTime;
+
+            playerRectangle.x += x;
+            playerRectangle.y += y;
+
+            if (x > 0) {
+                currentImage = playerImageRight;
+            } else if (x < 0) {
+                currentImage = playerImageLeft;
+            } else if (y > 0) {
+                currentImage = playerImageDown;
+            } else if (y < 0) {
+                currentImage = playerImageUp;
+            }
+
+
+        }
 
         // Aktualizovanie obrazkov
-        if (x > 0) {
-            currentImage = playerImageRight;
-        } else if (x < 0) {
-            currentImage = playerImageLeft;
-        } else if (y > 0) {
-            currentImage = playerImageDown;
-        } else if (y < 0) {
-            currentImage = playerImageUp;
-        }
     }
     public void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.drawImage(currentImage, playerRectangle.x, playerRectangle.y, 16 * 3, 16 * 3, null);
     }
 
-    public void move(int offsetX, int offsetY) {
-        this.playerRectangle.x += offsetX;
-        this.playerRectangle.y += offsetY;
-        // Similar move method for the Car class
-    }
 
 }
