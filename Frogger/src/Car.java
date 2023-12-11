@@ -5,7 +5,8 @@ public class Car {
     int carSpeed = 4;
     Rectangle carRectangle;
 
-    public Car(int x, int y) {
+    public Car(int x, int y, int speed) {
+        carSpeed = speed;
         carRectangle = new Rectangle(x, y, 16 * 3, 16 * 3);
     }
 
