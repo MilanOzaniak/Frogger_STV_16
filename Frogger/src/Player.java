@@ -50,6 +50,14 @@ public class Player {
 
         // Aktualizovanie obrazkov
     }
+
+    public void updateOnLog(int x, int y){
+        playerRectangle.x += x;
+        playerRectangle.y += y;
+
+
+    }
+
     public void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.drawImage(currentImage, playerRectangle.x, playerRectangle.y, 16 * 3, 16 * 3, null);

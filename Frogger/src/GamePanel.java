@@ -15,8 +15,9 @@ public class GamePanel extends JPanel implements Runnable {
     Grass grass3 = new Grass(0, 240);
     Road road1 = new Road(0, 336);
     Grass grass2 = new Grass(0, 480);
-    Water water1 = new Water(0, 576);
+    //Water water1 = new Water(0, 576);
     Grass grass1 = new Grass(0, 720);
+    Log log = new Log(0, 672);
 
 
     ArrayList<Player> players = new ArrayList<Player>();
@@ -25,6 +26,9 @@ public class GamePanel extends JPanel implements Runnable {
     ArrayList<Water> water = new ArrayList<Water>();
     ArrayList<Grass> grass = new ArrayList<Grass>();
     ArrayList<Road> road = new ArrayList<Road>();
+    ArrayList<Log> logs = new ArrayList<Log>();
+
+
 
 
 
@@ -52,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
         trees.add(tree1);
         trees.add(tree2);
 
-        water.add(water1);
+        //water.add(water1);
         water.add(water2);
         grass.add(grass1);
         grass.add(grass2);
@@ -62,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         players.add(player);
         cars.add(car1);
+        logs.add(log);
     }
     //
 
@@ -155,6 +160,17 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
 
+        log.update(log.logSpeed, 0);
+
+        if (log.logRectangle.x < 0 || log.logRectangle.x + log.logRectangle.width > screenWidth) {
+            log.logSpeed *= -1;
+        }
+
+        if(log.hasCollided(player.playerRectangle)){
+
+            player.updateOnLog(log.logSpeed, 0);
+        }
+
     }
 
     public void paintComponent(Graphics graphics) {
@@ -187,6 +203,7 @@ public class GamePanel extends JPanel implements Runnable {
             trees.get(i).paintComponent(graphics2D);
         }
 
+        log.paintComponent(graphics2D);
         graphics2D.dispose();
 
     }
