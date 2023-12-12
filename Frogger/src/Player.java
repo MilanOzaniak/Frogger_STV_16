@@ -59,6 +59,11 @@ public class Player {
 
     }
 
+    public void setPositionStart() {
+        playerRectangle.x = 240;
+        playerRectangle.y = 864;
+    }
+
     public void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.drawImage(currentImage, playerRectangle.x, playerRectangle.y, 16 * 3, 16 * 3, null);

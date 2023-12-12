@@ -6,6 +6,8 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
     Controller controller = new Controller();
     Player player = new Player();
+
+    //Vykreslenie mapy
     Car car1 = new Car(20, 346, "./img/car2_right.png", "./img/car2_left.png");
     Car car2 = new Car(230, 416, "./img/car3_right.png", "./img/car3_left.png");
     Tree tree1 = new Tree(50, 20);
@@ -42,6 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     ArrayList<Grass> grass = new ArrayList<Grass>();
     ArrayList<Road> road = new ArrayList<Road>();
     ArrayList<Log> logs = new ArrayList<Log>();
+
+    //
 
 
 
@@ -140,6 +144,8 @@ public class GamePanel extends JPanel implements Runnable {
             player.update(player.playerSpeed, 0);
         }
 
+
+        // AUTO
         for (int i = 0; i < cars.size(); i++) {
             // otačanie auta
             if (cars.get(i).carRectangle.x < 0 || cars.get(i).carRectangle.x + cars.get(i).carRectangle.width > screenWidth) {
@@ -151,11 +157,12 @@ public class GamePanel extends JPanel implements Runnable {
 
             // ak trafi auto playera
             if (cars.get(i).hasCollided(player.playerRectangle)) {
-                players.remove(0);
+                player.setPositionStart();
                 JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
             }
         }
+        //
 
         // aby hrač nešiel za mapu
 
@@ -163,6 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
 
+        // LOG
         for (int i = 0; i < logs.size(); i++) {
             logs.get(i).update(logs.get(i).logSpeed, 0);
 
@@ -174,8 +182,9 @@ public class GamePanel extends JPanel implements Runnable {
                 player.updateOnLog(logs.get(i).logSpeed, 0);
             }
         }
+        //
 
-        // koniec hry
+        // WATER
         for (int i = 0; i < water.size(); i++) {
             boolean isPlayerOnLog = false;
 
@@ -187,9 +196,10 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+            // Ak trafi vodu
             if (water.get(i).hasCollided(player.playerRectangle) && !isPlayerOnLog) {
                 if (players != null) {
-                    players.remove(0);
+                    player.setPositionStart();
                     JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
@@ -199,6 +209,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         //
 
+        // TREE
         for (int i = 0; i < trees.size(); i++) {
             if (trees.get(i).hasCollided(player.playerRectangle)) {
                 if (controller.upPressed) {
@@ -212,6 +223,14 @@ public class GamePanel extends JPanel implements Runnable {
                 }
             }
 
+        }
+        //
+
+
+        // KONIEC HRY WIN
+        if(player.playerRectangle.y < 20) {
+            JOptionPane.showMessageDialog(this, "Congratulations! You WON", "You WON", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
         }
 
     }
