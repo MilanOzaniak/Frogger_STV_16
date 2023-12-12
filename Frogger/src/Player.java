@@ -7,6 +7,7 @@ public class Player {
     int playerY = 864;
     int playerSpeed = 48;
     int movementSpeed = 250;
+
     Image playerImageRight;
     Image playerImageLeft;
     Image playerImageUp;

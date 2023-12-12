@@ -6,18 +6,33 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
     Controller controller = new Controller();
     Player player = new Player();
-    Car car1 = new Car(20, 346);
+    Car car1 = new Car(20, 346, "./img/car2_right.png", "./img/car2_left.png");
+    Car car2 = new Car(230, 416, "./img/car3_right.png", "./img/car3_left.png");
     Tree tree1 = new Tree(50, 20);
     Tree tree2 = new Tree(400, 12);
+    Tree tree3 = new Tree(72, 250);
+    Tree tree4 = new Tree(220, 270);
+    Tree tree5 = new Tree(64, 492);
+    Tree tree6 = new Tree(350, 486);
+    Tree tree7 = new Tree(400, 12);
+    Tree tree8 = new Tree(180, 749);
+    Tree tree9 = new Tree(500, 722);
+    Log log1 = new Log(0, 672);
+    Log log2 = new Log(120, 624);
+    Log log3 = new Log(340, 576);
+    Log log4 = new Log(30, 192);
+    Log log5 = new Log(250, 144);
+    Log log6 = new Log(400, 96);
+
 
     Grass grass4 = new Grass(0, 0);
     Water water2 = new Water(0, 96);
     Grass grass3 = new Grass(0, 240);
     Road road1 = new Road(0, 336);
     Grass grass2 = new Grass(0, 480);
-    //Water water1 = new Water(0, 576);
+    Water water1 = new Water(0, 576);
     Grass grass1 = new Grass(0, 720);
-    Log log = new Log(0, 672);
+
 
 
     ArrayList<Player> players = new ArrayList<Player>();
@@ -55,8 +70,15 @@ public class GamePanel extends JPanel implements Runnable {
 
         trees.add(tree1);
         trees.add(tree2);
+        trees.add(tree3);
+        trees.add(tree4);
+        trees.add(tree5);
+        trees.add(tree6);
+        trees.add(tree7);
+        trees.add(tree8);
+        trees.add(tree9);
 
-        //water.add(water1);
+        water.add(water1);
         water.add(water2);
         grass.add(grass1);
         grass.add(grass2);
@@ -66,7 +88,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         players.add(player);
         cars.add(car1);
-        logs.add(log);
+        cars.add(car2);
+        logs.add(log1);
+        logs.add(log2);
+        logs.add(log3);
+        logs.add(log4);
+        logs.add(log5);
+        logs.add(log6);
     }
     //
 
@@ -112,19 +140,21 @@ public class GamePanel extends JPanel implements Runnable {
             player.update(player.playerSpeed, 0);
         }
 
-        // otačanie auta
-        if (car1.carRectangle.x < 0 || car1.carRectangle.x + car1.carRectangle.width > screenWidth) {
-            car1.carSpeed *= -1;
-        }
+        for (int i = 0; i < cars.size(); i++) {
+            // otačanie auta
+            if (cars.get(i).carRectangle.x < 0 || cars.get(i).carRectangle.x + cars.get(i).carRectangle.width > screenWidth) {
+                cars.get(i).carSpeed *= -1;
+            }
 
-        // updatovanie po X osi
-        car1.update(car1.carSpeed, 0);
+            // updatovanie po X osi
+            cars.get(i).update(cars.get(i).carSpeed, 0);
 
-        // ak trafi auto playera
-        if (car1.hasCollided(player.playerRectangle)) {
-            players.remove(0);
-            JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            // ak trafi auto playera
+            if (cars.get(i).hasCollided(player.playerRectangle)) {
+                players.remove(0);
+                JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
+            }
         }
 
         // aby hrač nešiel za mapu
@@ -132,16 +162,40 @@ public class GamePanel extends JPanel implements Runnable {
         player.playerRectangle.x = Math.max(0, Math.min(player.playerRectangle.x, screenWidth - tileSize));
         player.playerRectangle.y = Math.max(0, Math.min(player.playerRectangle.y, screenHeight - tileSize));
 
-        for(int i = 0; i < water.size(); i++) {
-            if(water.get(i).hasCollided(player.playerRectangle)) {
-                if(players != null) {
+
+        for (int i = 0; i < logs.size(); i++) {
+            logs.get(i).update(logs.get(i).logSpeed, 0);
+
+            if (logs.get(i).logRectangle.x < 0 || logs.get(i).logRectangle.x + logs.get(i).logRectangle.width > screenWidth) {
+                logs.get(i).logSpeed *= -1;
+            }
+
+            if (logs.get(i).hasCollided(player.playerRectangle)) {
+                player.updateOnLog(logs.get(i).logSpeed, 0);
+            }
+        }
+
+        // koniec hry
+        for (int i = 0; i < water.size(); i++) {
+            boolean isPlayerOnLog = false;
+
+            // test ci je na dreve
+            for (int y = 0; y < logs.size(); y++) {
+                if (logs.get(y).hasCollided(player.playerRectangle)) {
+                    isPlayerOnLog = true;
+                    break;
+                }
+            }
+
+            if (water.get(i).hasCollided(player.playerRectangle) && !isPlayerOnLog) {
+                if (players != null) {
                     players.remove(0);
                     JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 }
-
             }
-
         }
+
+
 
         //
 
@@ -160,17 +214,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
 
-        log.update(log.logSpeed, 0);
-
-        if (log.logRectangle.x < 0 || log.logRectangle.x + log.logRectangle.width > screenWidth) {
-            log.logSpeed *= -1;
-        }
-
-        if(log.hasCollided(player.playerRectangle)){
-
-            player.updateOnLog(log.logSpeed, 0);
-        }
-
     }
 
     public void paintComponent(Graphics graphics) {
@@ -181,6 +224,10 @@ public class GamePanel extends JPanel implements Runnable {
 
         for (int i = 0; i < water.size(); i++) {
             water.get(i).paintComponent(graphics2D);
+        }
+
+        for (int i = 0; i < logs.size(); i++) {
+            logs.get(i).paintComponent(graphics2D);
         }
 
         for (int i = 0; i < road.size(); i++) {
@@ -203,7 +250,6 @@ public class GamePanel extends JPanel implements Runnable {
             trees.get(i).paintComponent(graphics2D);
         }
 
-        log.paintComponent(graphics2D);
         graphics2D.dispose();
 
     }
