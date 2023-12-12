@@ -9,12 +9,12 @@ public class Car {
     Image currentImage;
     Rectangle carRectangle;
 
-    public Car(int x, int y) {
+    public Car(int x, int y, String imageRight, String imageLeft) {
         carRectangle = new Rectangle(x, y, 16 * 4, 16 * 3);
 
         // nacitanie obrazkov
-        carImageRight = new ImageIcon("./img/car2_right1.png").getImage();
-        carImageLeft = new ImageIcon("./img/car2_left1.png").getImage();
+        carImageRight = new ImageIcon(imageRight).getImage();
+        carImageLeft = new ImageIcon(imageLeft).getImage();
 
         currentImage = carImageRight;
     }
@@ -34,10 +34,6 @@ public class Car {
 
     public void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
-
-        //toto som tu zatial nechal, aby bolo vidiet realnu velkost
-        graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(carRectangle.x, carRectangle.y, 16 * 4, 16 * 3);
 
         graphics2D.drawImage(currentImage, carRectangle.x, carRectangle.y, 16 * 4, 16 * 3, null);
     }

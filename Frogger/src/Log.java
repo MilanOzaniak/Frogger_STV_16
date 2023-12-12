@@ -8,7 +8,7 @@ public class Log {
     int logSpeed = 4;
 
     public Log(int x, int y) {
-        logRectangle = new Rectangle(x, y, 16 * 3, 16 * 3);
+        logRectangle = new Rectangle(x, y, (16 * 3) * 3, 16 * 3);
 
         // nacitanie obrazkov
         logImage = new ImageIcon("./img/log.png").getImage();
@@ -30,7 +30,7 @@ public class Log {
 
     public void paintComponent(Graphics graphics) {
         Graphics2D graphics2D = (Graphics2D) graphics;
-        graphics2D.drawImage(logImage, logRectangle.x, logRectangle.y, 16 * 3, 16 * 3, null);
+        graphics2D.drawImage(logImage, logRectangle.x, logRectangle.y, (16 * 3) * 3, 16 * 3, null);
     }
 
 
