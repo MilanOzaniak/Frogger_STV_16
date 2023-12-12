@@ -4,23 +4,19 @@ import java.awt.*;
 public class Car {
 
     int carSpeed = 4;
-    Image playerImageRight;
-    Image playerImageLeft;
-    Image playerImageUp;
-    Image playerImageDown;
+    Image carImageRight;
+    Image carImageLeft;
     Image currentImage;
     Rectangle carRectangle;
 
     public Car(int x, int y) {
-        carRectangle = new Rectangle(x, y, 16 * 3, 16 * 3);
+        carRectangle = new Rectangle(x, y, 16 * 4, 16 * 3);
 
         // nacitanie obrazkov
-        playerImageRight = new ImageIcon("./img/car2_right.png").getImage();
-        playerImageLeft = new ImageIcon("./img/car2_left.png").getImage();
-        playerImageUp = new ImageIcon("./img/car2_up.png").getImage();
-        playerImageDown = new ImageIcon("./img/car2_down.png").getImage();
+        carImageRight = new ImageIcon("./img/car2_right1.png").getImage();
+        carImageLeft = new ImageIcon("./img/car2_left1.png").getImage();
 
-        currentImage = playerImageRight;
+        currentImage = carImageRight;
     }
 
 
@@ -30,13 +26,9 @@ public class Car {
 
         // Aktualizovanie obrazkov
         if (x > 0) {
-            currentImage = playerImageRight;
+            currentImage = carImageRight;
         } else if (x < 0) {
-            currentImage = playerImageLeft;
-        } else if (y > 0) {
-            currentImage = playerImageDown;
-        } else if (y < 0) {
-            currentImage = playerImageUp;
+            currentImage = carImageLeft;
         }
     }
 
@@ -45,9 +37,9 @@ public class Car {
 
         //toto som tu zatial nechal, aby bolo vidiet realnu velkost
         graphics2D.setColor(Color.WHITE);
-        graphics2D.fillRect(carRectangle.x, carRectangle.y, 16 * 3, 16 * 3);
+        graphics2D.fillRect(carRectangle.x, carRectangle.y, 16 * 4, 16 * 3);
 
-        graphics2D.drawImage(currentImage, carRectangle.x, carRectangle.y, 16 * 3, 16 * 3, null);
+        graphics2D.drawImage(currentImage, carRectangle.x, carRectangle.y, 16 * 4, 16 * 3, null);
     }
 
     public boolean hasCollided(Rectangle player) {

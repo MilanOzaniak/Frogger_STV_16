@@ -6,39 +6,17 @@ public class GamePanel extends JPanel implements Runnable {
     private Thread thread;
     Controller controller = new Controller();
     Player player = new Player();
-    Car car1 = new Car(20, 20);
-    Tree tree1 = new Tree(50, 100);
-    Tree tree2 = new Tree(100, 100);
-    Water water1 = new Water(350, 200);
+    Car car1 = new Car(20, 346);
+    Tree tree1 = new Tree(50, 20);
+    Tree tree2 = new Tree(400, 12);
 
-    //prva travnata plocha
+    Grass grass4 = new Grass(0, 0);
+    Water water2 = new Water(0, 96);
+    Grass grass3 = new Grass(0, 240);
+    Road road1 = new Road(0, 336);
+    Grass grass2 = new Grass(0, 480);
+    Water water1 = new Water(0, 576);
     Grass grass1 = new Grass(0, 720);
-    Grass grass2 = new Grass(48, 720);
-    Grass grass3 = new Grass(96, 720);
-    Grass grass4 = new Grass(144, 720);
-    Grass grass5 = new Grass(192, 720);
-    Grass grass6 = new Grass(240, 720);
-    Grass grass7 = new Grass(288, 720);
-    Grass grass8 = new Grass(336, 720);
-    Grass grass9 = new Grass(384, 720);
-    Grass grass10 = new Grass(432, 720);
-    Grass grass11 = new Grass(480, 720);
-    Grass grass12 = new Grass(528, 720);
-    Grass grass13 = new Grass(576, 720);
-
-    Grass grass14 = new Grass(0, 768);
-    Grass grass15 = new Grass(48, 768);
-    Grass grass16 = new Grass(96, 768);
-    Grass grass17 = new Grass(144, 768);
-    Grass grass18 = new Grass(192, 768);
-    Grass grass19 = new Grass(240, 768);
-    Grass grass20 = new Grass(288, 768);
-    Grass grass21 = new Grass(336, 768);
-    Grass grass22 = new Grass(384, 768);
-    Grass grass23 = new Grass(432, 768);
-    Grass grass24 = new Grass(480, 768);
-    Grass grass25 = new Grass(528, 768);
-    Grass grass26 = new Grass(576, 768);
 
 
     ArrayList<Player> players = new ArrayList<Player>();
@@ -46,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     ArrayList<Tree> trees = new ArrayList<Tree>();
     ArrayList<Water> water = new ArrayList<Water>();
     ArrayList<Grass> grass = new ArrayList<Grass>();
+    ArrayList<Road> road = new ArrayList<Road>();
 
 
 
@@ -72,34 +51,14 @@ public class GamePanel extends JPanel implements Runnable {
 
         trees.add(tree1);
         trees.add(tree2);
+
         water.add(water1);
+        water.add(water2);
         grass.add(grass1);
         grass.add(grass2);
         grass.add(grass3);
         grass.add(grass4);
-        grass.add(grass5);
-        grass.add(grass6);
-        grass.add(grass7);
-        grass.add(grass8);
-        grass.add(grass9);
-        grass.add(grass10);
-        grass.add(grass11);
-        grass.add(grass12);
-        grass.add(grass13);
-        grass.add(grass14);
-        grass.add(grass15);
-        grass.add(grass16);
-        grass.add(grass17);
-        grass.add(grass18);
-        grass.add(grass19);
-        grass.add(grass20);
-        grass.add(grass21);
-        grass.add(grass22);
-        grass.add(grass23);
-        grass.add(grass24);
-        grass.add(grass25);
-        grass.add(grass26);
-
+        road.add(road1);
 
         players.add(player);
         cars.add(car1);
@@ -204,6 +163,14 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(graphics);
         Graphics2D graphics2D = (Graphics2D) graphics;
 
+        for (int i = 0; i < water.size(); i++) {
+            water.get(i).paintComponent(graphics2D);
+        }
+
+        for (int i = 0; i < road.size(); i++) {
+            road.get(i).paintComponent(graphics2D);
+        }
+
         for (int i = 0; i < grass.size(); i++) {
             grass.get(i).paintComponent(graphics2D);
         }
@@ -218,10 +185,6 @@ public class GamePanel extends JPanel implements Runnable {
 
         for (int i = 0; i < trees.size(); i++) {
             trees.get(i).paintComponent(graphics2D);
-        }
-
-        for (int i = 0; i < water.size(); i++) {
-            water.get(i).paintComponent(graphics2D);
         }
 
         graphics2D.dispose();
