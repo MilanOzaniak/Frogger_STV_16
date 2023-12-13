@@ -36,7 +36,6 @@ public class GamePanel extends JPanel implements Runnable {
     Grass grass1 = new Grass(0, 720);
 
 
-
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<Car> cars = new ArrayList<Car>();
     ArrayList<Tree> trees = new ArrayList<Tree>();
@@ -270,6 +269,5 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         graphics2D.dispose();
-
     }
 }
