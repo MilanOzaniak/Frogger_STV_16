@@ -157,6 +157,7 @@ public class GamePanel extends JPanel implements Runnable {
             // ak trafi auto playera
             if (cars.get(i).hasCollided(player.playerRectangle)) {
                 player.setPositionStart();
+                controller.resetKeyStates();
                 JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
 
             }
@@ -199,6 +200,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (water.get(i).hasCollided(player.playerRectangle) && !isPlayerOnLog) {
                 if (players != null) {
                     player.setPositionStart();
+                    controller.resetKeyStates();
                     JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
@@ -228,7 +230,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         // KONIEC HRY WIN
         if(player.playerRectangle.y < 20) {
-            JOptionPane.showMessageDialog(this, "Congratulations! You WON", "You WON", JOptionPane.INFORMATION_MESSAGE);
+            int steps = player.getStepsCount();
+            JOptionPane.showMessageDialog(this, "Congratulations! You WON\nNumber of steps needed: " + steps, "You WON", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
 

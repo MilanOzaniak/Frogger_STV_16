@@ -46,4 +46,11 @@ public class Controller implements KeyListener {
             rightPressed = false;
         }
     }
+
+    public void resetKeyStates() {
+        upPressed = false;
+        downPressed = false;
+        leftPressed = false;
+        rightPressed = false;
+    }
 }

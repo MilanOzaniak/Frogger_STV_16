@@ -7,6 +7,7 @@ public class Player {
     int playerY = 864;
     int playerSpeed = 48;
     int movementSpeed = 250;
+    int stepsCount = 0;
 
     Image playerImageRight;
     Image playerImageLeft;
@@ -46,7 +47,9 @@ public class Player {
                 currentImage = playerImageUp;
             }
 
-
+            if (x != 0 || y != 0) { //rata pocet krokov
+                stepsCount++;
+            }
         }
 
         // Aktualizovanie obrazkov
@@ -55,13 +58,14 @@ public class Player {
     public void updateOnLog(int x, int y){
         playerRectangle.x += x;
         playerRectangle.y += y;
-
-
     }
 
     public void setPositionStart() {
         playerRectangle.x = 240;
         playerRectangle.y = 864;
+
+        currentImage = playerImageUp;
+        stepsCount = 0;
     }
 
     public void paintComponent(Graphics graphics) {
@@ -69,5 +73,7 @@ public class Player {
         graphics2D.drawImage(currentImage, playerRectangle.x, playerRectangle.y, 16 * 3, 16 * 3, null);
     }
 
-
+    public int getStepsCount() {
+        return stepsCount;
+    }
 }
