@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
     Grass grass1 = new Grass(0, 720);
 
 
+
     ArrayList<Player> players = new ArrayList<Player>();
     ArrayList<Car> cars = new ArrayList<Car>();
     ArrayList<Tree> trees = new ArrayList<Tree>();
@@ -157,9 +158,7 @@ public class GamePanel extends JPanel implements Runnable {
             // ak trafi auto playera
             if (cars.get(i).hasCollided(player.playerRectangle)) {
                 player.setPositionStart();
-                controller.resetKeyStates();
                 JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
             }
         }
         //
@@ -200,7 +199,6 @@ public class GamePanel extends JPanel implements Runnable {
             if (water.get(i).hasCollided(player.playerRectangle) && !isPlayerOnLog) {
                 if (players != null) {
                     player.setPositionStart();
-                    controller.resetKeyStates();
                     JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
                 }
             }
@@ -230,8 +228,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         // KONIEC HRY WIN
         if(player.playerRectangle.y < 20) {
+<<<<<<< Updated upstream
+            JOptionPane.showMessageDialog(this, "Congratulations! You WON", "You WON", JOptionPane.INFORMATION_MESSAGE);
+=======
             int steps = player.getStepsCount();
-            JOptionPane.showMessageDialog(this, "Congratulations! You WON\nNumber of steps needed: " + steps, "You WON", JOptionPane.INFORMATION_MESSAGE);
+            long time = player.stopTime() / 1000;
+            JOptionPane.showMessageDialog(this, "Congratulations! You WON\nNumber of steps needed: " + steps + "\nDuration time: " + time + " seconds", "You WON", JOptionPane.INFORMATION_MESSAGE);
+>>>>>>> Stashed changes
             System.exit(0);
         }
 
@@ -272,5 +275,6 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         graphics2D.dispose();
+
     }
 }
