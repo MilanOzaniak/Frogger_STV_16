@@ -50,9 +50,7 @@ public class Player {
                 currentImage = playerImageUp;
             }
 
-<<<<<<< Updated upstream
 
-=======
             if (x != 0 || y != 0) { //rata pocet krokov
                 stepsCount++;
             }
@@ -60,7 +58,6 @@ public class Player {
                 startTime = System.currentTimeMillis();
                 startedCount = true;
             }
->>>>>>> Stashed changes
         }
 
         // Aktualizovanie obrazkov
@@ -76,13 +73,10 @@ public class Player {
     public void setPositionStart() {
         playerRectangle.x = 240;
         playerRectangle.y = 864;
-<<<<<<< Updated upstream
-=======
 
         currentImage = playerImageUp;
         stepsCount = 0;
         startedCount = false;
->>>>>>> Stashed changes
     }
 
     public void paintComponent(Graphics graphics) {
@@ -90,9 +84,7 @@ public class Player {
         graphics2D.drawImage(currentImage, playerRectangle.x, playerRectangle.y, 16 * 3, 16 * 3, null);
     }
 
-<<<<<<< Updated upstream
 
-=======
     public int getStepsCount() {
         return stepsCount;
     }
@@ -101,5 +93,4 @@ public class Player {
         startedCount = false;
         return estimatedTime = System.currentTimeMillis() - startTime;
     }
->>>>>>> Stashed changes
 }
