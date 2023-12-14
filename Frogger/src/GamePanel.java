@@ -159,7 +159,6 @@ public class GamePanel extends JPanel implements Runnable {
             if (cars.get(i).hasCollided(player.playerRectangle)) {
                 player.setPositionStart();
                 JOptionPane.showMessageDialog(this, "You are dead! Game Over", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
             }
         }
         //
@@ -229,7 +228,13 @@ public class GamePanel extends JPanel implements Runnable {
 
         // KONIEC HRY WIN
         if(player.playerRectangle.y < 20) {
+<<<<<<< Updated upstream
             JOptionPane.showMessageDialog(this, "Congratulations! You WON", "You WON", JOptionPane.INFORMATION_MESSAGE);
+=======
+            int steps = player.getStepsCount();
+            long time = player.stopTime() / 1000;
+            JOptionPane.showMessageDialog(this, "Congratulations! You WON\nNumber of steps needed: " + steps + "\nDuration time: " + time + " seconds", "You WON", JOptionPane.INFORMATION_MESSAGE);
+>>>>>>> Stashed changes
             System.exit(0);
         }
 
