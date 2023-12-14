@@ -1,0 +1,16 @@
+Najskôr sme si vytvorili jPanel z knižnice java.swing. Nastavili sme mu základné parametre (šírka, dĺžka), potom sme riešili hráča a jeho pohyb po hracom poli. Vytvorili sme si modely prekážok. Ku každej prekážke sme vytvorili vlastný grafický design. Implementovali sme logiku pre každú prekážku. A nakoniec sme si vytvorili mapu po ktorej sa môže hráčč pohybovať. 
+
+
+Hra by sa mohla vylepšiť viacerými spôsobmi. 
+1. Pridaním viacerých herných máp
+2. Pridanie obtiažnosti a viacerých prekážok
+3. Pridanie časového limitu pre každý level
+4. Pridanie rôznych vylepšení do hry (napr. viacej životov, väčšia rýchlosť,zmrazenie prekážky,...)
+
+
+Použité technológie:
+1. Intellij idea - IDE
+2. Java - programovací jazyk
+3. GitHub - zálohovanie kódu a práca v tíme
+4. Java.swing - grafické rozhranie
+5. Java.awt - komponenty na grafické rozhranie (tlačítka, obrázky,...)
